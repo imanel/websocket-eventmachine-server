@@ -6,7 +6,7 @@ WebSocket-EventMachine-Server is Ruby WebSocket server based on EventMachine.
 
 There are multiple Ruby WebSocket servers, each with different quirks and errors. Most commonly used em-websocket is unfortunately slow and have multiple bugs(see Autobahn tests below). This library was created to fix most of them.
 
-[Autobahn tests](http://imanel.github.com/websocket-ruby/autobahn/server/)
+[Autobahn tests](http://imanel.github.com/websocket-ruby/autobahn/server)
 
 ## Installation
 
