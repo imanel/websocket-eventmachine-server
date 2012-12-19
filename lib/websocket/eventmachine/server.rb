@@ -94,10 +94,14 @@ module WebSocket
 
       # Close connection
       # @return [Boolean] true if connection is closed immediately, false if waiting for server to close connection
-      def close(data = '')
+      def close(code = 1000, data = nil)
         if @state == :open
           @state = :closing
-          return false if send(data, :type => :close)
+
+          close_data = [code].pack('n')
+          close_data << data if data
+
+          return false if send(close_data, :type => :close)
         else
           send(data, :type => :close) if @state == :closing
           @state = :closed
