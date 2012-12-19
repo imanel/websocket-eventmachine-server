@@ -4,7 +4,7 @@ require 'eventmachine'
 module WebSocket
   module EventMachine
 
-    # Example WebSocket Server (using EventMachine)
+    # WebSocket Server (using EventMachine)
     # @example
     #   WebSocket::EventMachine::Server.start(:host => "0.0.0.0", :port => 8080) do |ws|
     #     ws.onopen    { ws.send "Hello Client!"}
@@ -39,12 +39,34 @@ module WebSocket
         @tls_options = args[:tls_options] || {}
       end
 
-      def onopen(&blk);     @onopen = blk;    end # Called when connection is opened
-      def onclose(&blk);    @onclose = blk;   end # Called when connection is closed
-      def onerror(&blk);    @onerror = blk;   end # Called when error occurs
-      def onmessage(&blk);  @onmessage = blk; end # Called when message is received from server
-      def onping(&blk);     @onping = blk;    end # Called when ping message is received from server
-      def onpong(&blk);     @onpong = blk;    end # Called when pond message is received from server
+      # Called when connection is opened
+      # No parameters are passed to block
+      def onopen(&blk);     @onopen = blk;    end
+
+      # Called when connection is closed
+      # No parameters are passed to block
+      def onclose(&blk);    @onclose = blk;   end
+
+      # Called when error occurs
+      # One parameter passed to block:
+      #   error - string with error message
+      def onerror(&blk);    @onerror = blk;   end
+
+      # Called when message is received from server
+      # Two parameters passed to block:
+      #   message - string with message sent to server
+      #   type - type of message. Valid values are :text and :binary
+      def onmessage(&blk);  @onmessage = blk; end
+
+      # Called when ping message is received from server
+      # One parameter passed to block:
+      #   message - string with ping message
+      def onping(&blk);     @onping = blk;    end
+
+      # Called when pond message is received from server
+      # One parameter passed to block:
+      #   message - string with pong message
+      def onpong(&blk);     @onpong = blk;    end
 
       # Send data to client
       # @param data [String] Data to send
@@ -98,15 +120,13 @@ module WebSocket
       ### EventMachine methods ###
       ############################
 
-      # :nodoc:
-      def post_init
+      def post_init # :nodoc:
         @state = :connecting
         @handshake = WebSocket::Handshake::Server.new(:secure => @secure)
         start_tls(@tls_options) if @secure
       end
 
-      # :nodoc:
-      def receive_data(data)
+      def receive_data(data) # :nodoc:
         debug "Received raw: ", data
         case @state
         when :connecting then handle_connecting(data)
@@ -115,8 +135,7 @@ module WebSocket
         end
       end
 
-      # :nodoc:
-      def unbind
+      def unbind # :nodoc:
         unless @state == :closed
           @state = :closed
           close
