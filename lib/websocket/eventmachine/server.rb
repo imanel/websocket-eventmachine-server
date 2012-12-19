@@ -120,6 +120,7 @@ module WebSocket
       ### EventMachine methods ###
       ############################
 
+      # Eventmachine internal
       # @private
       def post_init
         @state = :connecting
@@ -127,6 +128,7 @@ module WebSocket
         start_tls(@tls_options) if @secure
       end
 
+      # Eventmachine internal
       # @private
       def receive_data(data)
         debug "Received raw: ", data
@@ -137,6 +139,7 @@ module WebSocket
         end
       end
 
+      # Eventmachine internal
       # @private
       def unbind
         unless @state == :closed
