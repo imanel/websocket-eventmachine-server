@@ -100,7 +100,7 @@ module WebSocket
           @state = :closing
           return false if send(data, :type => :close, :code => code)
         else
-          send(data, :type => :close, :code => code) if @state == :closing
+          send(data, :type => :close) if @state == :closing
           @state = :closed
         end
         close_connection_after_writing
