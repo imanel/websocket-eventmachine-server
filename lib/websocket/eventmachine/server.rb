@@ -74,11 +74,12 @@ module WebSocket
       # @param data [String] Data to send
       # @param args [Hash] Arguments for send
       # @option args [String] :type Type of frame to send - available types are "text", "binary", "ping", "pong" and "close"
+      # @option args [Integer] :code Code for close frame
       # @return [Boolean] true if data was send, otherwise call on_error if needed
       def send(data, args = {})
         type = args[:type] || :text
         unless type == :plain
-          frame = WebSocket::Frame::Outgoing::Server.new(:version => @handshake.version, :data => data, :type => type)
+          frame = WebSocket::Frame::Outgoing::Server.new args.merge(:version => @handshake.version, :data => data)
           if !frame.supported?
             trigger_onerror("Frame type '#{type}' is not supported in protocol version #{@handshake.version}")
             return false
@@ -97,11 +98,7 @@ module WebSocket
       def close(code = 1000, data = nil)
         if @state == :open
           @state = :closing
-
-          close_data = [code].pack('n')
-          close_data << data if data
-
-          return false if send(close_data, :type => :close)
+          return false if send(data, :type => :close, :code => code)
         else
           send(data, :type => :close) if @state == :closing
           @state = :closed
