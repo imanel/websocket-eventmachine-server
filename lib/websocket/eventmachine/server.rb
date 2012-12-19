@@ -32,10 +32,12 @@ module WebSocket
       # @param args [Hash] Arguments for server
       # @option args [Boolean] :debug Should server log debug data?
       # @option args [Boolean] :secure If true then server will run over SSL
+      # @option args [Boolean] :secure_proxy If true then server will use wss protocol but will not encrypt connection. Usefull for sll proxies.
       # @option args [Hash] :tls_options Options for SSL if secure = true
       def initialize(args)
         @debug = !!args[:debug]
-        @secure = args[:secure] || false
+        @secure = !!args[:secure]
+        @secure_proxy = args[:secure_proxy] || @secure
         @tls_options = args[:tls_options] || {}
       end
 
@@ -124,7 +126,7 @@ module WebSocket
       # @private
       def post_init
         @state = :connecting
-        @handshake = WebSocket::Handshake::Server.new(:secure => @secure)
+        @handshake = WebSocket::Handshake::Server.new(:secure => @secure_proxy)
         start_tls(@tls_options) if @secure
       end
 
