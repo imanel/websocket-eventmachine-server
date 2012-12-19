@@ -39,31 +39,31 @@ module WebSocket
         @tls_options = args[:tls_options] || {}
       end
 
-      # Called when connection is opened
+      # Called when connection is opened.
       # No parameters are passed to block
       def onopen(&blk);     @onopen = blk;    end
 
-      # Called when connection is closed
+      # Called when connection is closed.
       # No parameters are passed to block
       def onclose(&blk);    @onclose = blk;   end
 
-      # Called when error occurs
+      # Called when error occurs.
       # One parameter passed to block:
       #   error - string with error message
       def onerror(&blk);    @onerror = blk;   end
 
-      # Called when message is received from server
+      # Called when message is received from server.
       # Two parameters passed to block:
       #   message - string with message sent to server
       #   type - type of message. Valid values are :text and :binary
       def onmessage(&blk);  @onmessage = blk; end
 
-      # Called when ping message is received from server
+      # Called when ping message is received from server.
       # One parameter passed to block:
       #   message - string with ping message
       def onping(&blk);     @onping = blk;    end
 
-      # Called when pond message is received from server
+      # Called when pond message is received from server.
       # One parameter passed to block:
       #   message - string with pong message
       def onpong(&blk);     @onpong = blk;    end
@@ -120,13 +120,15 @@ module WebSocket
       ### EventMachine methods ###
       ############################
 
-      def post_init # :nodoc:
+      # @private
+      def post_init
         @state = :connecting
         @handshake = WebSocket::Handshake::Server.new(:secure => @secure)
         start_tls(@tls_options) if @secure
       end
 
-      def receive_data(data) # :nodoc:
+      # @private
+      def receive_data(data)
         debug "Received raw: ", data
         case @state
         when :connecting then handle_connecting(data)
@@ -135,7 +137,8 @@ module WebSocket
         end
       end
 
-      def unbind # :nodoc:
+      # @private
+      def unbind
         unless @state == :closed
           @state = :closed
           close
