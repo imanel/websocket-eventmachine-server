@@ -47,13 +47,13 @@ end
 
 Following options can be passed to WebSocket::EventMachine::Server initializer:
 
-`:host` - `[String]` IP on which server should accept connections. '0.0.0.0' means all.
-`:port` - `[Integer]` Port on which server should accept connections.
-`:secure` - `[Boolean]` Enable secure WSS protocol. This will enable both SSL encryption and using WSS url and require `tls_options` key.
-`:secure_proxy` - `[Boolean]` Enable secure WSS protocol over proxy. This will enable only using WSS url and assume that SSL encryption is handled by some kind proxy(like [Stunnel](http://www.stunnel.org/))
-`:tls_options` - `[Hash]` Options for SSL(according to [EventMachine start_tls method](http://eventmachine.rubyforge.org/EventMachine/Connection.html#start_tls-instance_method))
-  `:private_key_file` - `[String]` URL to private key file
-  `:cert_chain_file` - `[String]` URL to cert chain file
+- `[String] :host` - IP on which server should accept connections. '0.0.0.0' means all.
+- `[Integer] :port` - Port on which server should accept connections.
+- `[Boolean] :secure` - Enable secure WSS protocol. This will enable both SSL encryption and using WSS url and require `tls_options` key.
+- `[Boolean] :secure_proxy` - Enable secure WSS protocol over proxy. This will enable only using WSS url and assume that SSL encryption is handled by some kind proxy(like [Stunnel](http://www.stunnel.org/))
+- `[Hash] :tls_options` - Options for SSL(according to [EventMachine start_tls method](http://eventmachine.rubyforge.org/EventMachine/Connection.html#start_tls-instance_method))
+  - `[String] :private_key_file` - URL to private key file
+  - `[String] :cert_chain_file` - URL to cert chain file
 
 ## Methods
 
@@ -85,10 +85,12 @@ end
 
 ### onmessage
 
-Called when server receive message. Two parameters are passed:
+Called when server receive message.
 
-- `[String]` message - content of message
-- `[Symbol]` type - type is type of message(:text or :binary)
+Parameters:
+
+- `[String] message` - content of message
+- `[Symbol] type` - type is type of message(:text or :binary)
 
 Example:
 
@@ -100,9 +102,11 @@ end
 
 ### onerror
 
-Called when server discovers error. One parameter is passed:
+Called when server discovers error.
 
-- `[String]` error - error reason.
+Parameters:
+
+- `[String] error` - error reason.
 
 Example:
 
@@ -114,9 +118,11 @@ end
 
 ### onping
 
-Called when server receive ping request. Pong request is sent automatically. One parameter is passed:
+Called when server receive ping request. Pong request is sent automatically.
 
-- `[String]` message - message for ping request.
+Parameters:
+
+- `[String] message` - message for ping request.
 
 Example:
 
@@ -128,9 +134,11 @@ end
 
 ### onpong
 
-Called when server receive pong response. One parameter is passed:
+Called when server receive pong response.
 
-- `[String]` message - message for pong response.
+Parameters:
+
+- `[String] message` - message for pong response.
 
 Example:
 
@@ -142,11 +150,13 @@ end
 
 ### send
 
-Sends message to client. Params:
+Sends message to client.
 
-- `[String]` message - message that should be sent to client
-- `[Hash]` params - params for message(optional)
-  - `[Symbol]` type - type of message. Valid values are :text, :binary(default is :text)
+Parameters:
+
+- `[String] message` - message that should be sent to client
+- `[Hash] params` - params for message(optional)
+  - `[Symbol] :type` - type of message. Valid values are :text, :binary(default is :text)
 
 Example:
 
@@ -157,10 +167,12 @@ ws.send "binary data", :type => :binary
 
 ### close
 
-Closes connection and optionally send close frame to client. Params:
+Closes connection and optionally send close frame to client.
 
-- `[Integer]` code - code of closing, according to WebSocket specification(optional)
-- `[String]` data - data to send in closing frame(optional)
+Parameters:
+
+- `[Integer] code` - code of closing, according to WebSocket specification(optional)
+- `[String] data` - data to send in closing frame(optional)
 
 Example:
 
@@ -170,9 +182,11 @@ ws.close
 
 ### ping
 
-Sends ping request. Params:
+Sends ping request.
 
-- `[String]` data - data to send in ping request(optional)
+Parameters:
+
+- `[String] data` - data to send in ping request(optional)
 
 Example:
 
@@ -182,9 +196,11 @@ ws.ping 'Hi'
 
 ### pong
 
-Sends pong request. Usually there should be no need to send this request, as pong responses are sent automatically by server. Params:
+Sends pong request. Usually there should be no need to send this request, as pong responses are sent automatically by server.
 
-- `[String]` data - data to send in pong request(optional)
+Parameters:
+
+- `[String] data` - data to send in pong request(optional)
 
 Example:
 
