@@ -1,5 +1,4 @@
 require 'websocket-eventmachine-base'
-require 'eventmachine'
 
 module WebSocket
   module EventMachine
