@@ -48,7 +48,7 @@ module WebSocket
       # @private
       def post_init
         @state = :connecting
-        @handshake = WebSocket::Handshake::Server.new(:secure => @secure_proxy)
+        @handshake = ::WebSocket::Handshake::Server.new(:secure => @secure_proxy)
         start_tls(@tls_options) if @secure
       end
 
@@ -59,11 +59,11 @@ module WebSocket
       private
 
       def incoming_frame
-        WebSocket::Frame::Incoming::Server
+        ::WebSocket::Frame::Incoming::Server
       end
 
       def outgoing_frame
-        WebSocket::Frame::Outgoing::Server
+        ::WebSocket::Frame::Outgoing::Server
       end
 
       public
