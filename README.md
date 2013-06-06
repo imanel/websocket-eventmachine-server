@@ -213,6 +213,10 @@ ws.pong 'Hello'
 
 This library is compatible with EM-WebSocket, so only thing you need to change is running server - you need to change from EM-WebSocket to WebSocket::EventMachine::Server in your application and everything will be working.
 
+## Using self-signed certificate
+
+Read more [here](https://github.com/kanaka/websockify/wiki/Encrypted-Connections).
+
 ## License
 
 The MIT License - Copyright (c) 2012 Bernard Potocki
