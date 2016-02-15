@@ -64,11 +64,15 @@ Following methods are available for WebSocket::EventMachine::Server object:
 
 Called after client is connected.
 
+Parameters:
+
+- `[Handshake] handshake` - full handshake. See [specification](http://www.rubydoc.info/github/imanel/websocket-ruby/WebSocket/Handshake/Base) for available methods.
+
 Example:
 
 ```ruby
-ws.onopen do
-  puts "Client connected"
+ws.onopen do |handshake|
+  puts "Client connected with params #{handshake.query}"
 end
 ```
 
